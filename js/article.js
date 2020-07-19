@@ -35,6 +35,7 @@
     }
 
     window.renderArticle = (issue, container_selector) => {
+        document.title = issue.title + ' - ' + document.title
         let avatarImg = document.createElement('img')
         avatarImg.id = 'issue-' + issue.id
         avatarImg.src = DEF_AVATAR_DATA
@@ -79,10 +80,11 @@
 
         div.appendChild(title)
         div.appendChild(author)
+        div.appendChild(document.createElement('br'))
 
         let content = document.createElement('div')
-        div.className = 'content'
-        div.innerHTML = marked(issue.body)
+        content.className = 'content'
+        content.innerHTML = marked(issue.body)
 
         let container = document.querySelector(container_selector)
         container.innerHTML = ''
