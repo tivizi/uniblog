@@ -13,11 +13,11 @@
     <meta property="og:image" content="favicon.svg" />
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="js/config.js"></script>
-    <script src="js/backend.js"></script>
+    <script src="js/core.js"></script>
     <script src="js/index.js"></script>
 </head>
 <body>
-    <header>Tivizi 在线瞎掰</header>
+    <header><div id="header">Tivizi 在线瞎掰</div></header>
     <div id="container"></div>
     <script type="text/javascript">
         let container = '#container'
@@ -39,20 +39,9 @@
         })
 
         window.onscroll = () => {
-            if(document.documentElement.clientHeight + document.documentElement.scrollTop >= document.documentElement.scrollHeight-10) {
+            if(document.documentElement.clientHeight + document.documentElement.scrollTop 
+                >= document.documentElement.scrollHeight-10) {
                 normalTrigger(() => renderArticleFromStorage(container))
-            }
-        }
-
-        let tigger = false
-        function normalTrigger(callback) {
-            if(!tigger) {
-                tigger = true
-                callback()
-                let timer = setTimeout(()=>{
-                    clearTimeout(timer)
-                    tigger = false
-                }, 2000)
             }
         }
 
