@@ -12,9 +12,9 @@
 	} else {
 		factory( global );
 	}
-
 } )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
     window.config = {
-        siteName: "Tivizi's Blog"
+        siteName: "Tivizi's Blog",
+        githubRepo: "tivizi/tivizi"
     }
 })
