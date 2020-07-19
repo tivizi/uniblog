@@ -94,10 +94,12 @@
                 json.forEach(issue => {
                     articles[issue.number] = issue
                 })
-                localStorage.setItem(RAW_DATA_KEY, JSON.stringify(articles))
-                metadata.total += json.length
-                metadata.uptime = new Date().toISOString()
-                localStorage.setItem(RAW_DATA_METADATE, JSON.stringify(metadata))
+                if(json.length > 0) {
+                    localStorage.setItem(RAW_DATA_KEY, JSON.stringify(articles))
+                    metadata.total += json.length
+                    metadata.uptime = new Date().toISOString()
+                    localStorage.setItem(RAW_DATA_METADATE, JSON.stringify(metadata))
+                }
                 resolve({
                     data: articles,
                     metadata: metadata
@@ -144,8 +146,9 @@
         
         let stopIndex = (window.showPage -1) * ( -pageSize)
         let startIndex = stopIndex-pageSize+1
+        startIndex = -startIndex>metadata.total ? -metadata.total : startIndex
         
-        if(-startIndex > metadata.total) {
+        if(-stopIndex > metadata.total) {
             console.log('non more')
             return
         }
