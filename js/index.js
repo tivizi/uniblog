@@ -27,8 +27,6 @@
         }))
     }
 
-    window.onhashchange = () => location.reload(true)
-
     window.showPage = 1
 
     function fetchArticlesToStorage() {

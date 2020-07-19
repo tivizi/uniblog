@@ -16,6 +16,7 @@
 } )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
     if (noGlobal) throw new Error('unsupports env.')
     
+    window.onhashchange = () => location.reload(true)
 
     window.renderFromStorage = (id, container_selector) => {
         if (!container_selector) throw new Error('container_selector is required!')
