@@ -71,6 +71,7 @@
                     resolve(articles_list)
                     Promise.reject('304 not modified')
                 }
+                return resp
             }).
             then(resp => {
                 let etdg = resp.headers.get('etag')
