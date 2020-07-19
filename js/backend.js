@@ -36,6 +36,7 @@
 
     function initTipsComponent() {
         document.body.innerHTML += TIPS_AREA
+        document.title = window.config.siteName
     }
     function loadtips() {
        document.querySelector('#loadding').style.display = 'block'
