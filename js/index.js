@@ -27,6 +27,8 @@
         }))
     }
 
+    window.onhashchange = () => location.reload(true)
+
     window.showPage = 1
 
     function fetchArticlesToStorage() {
@@ -177,7 +179,7 @@
         let title = document.createElement('a')
         title.className = 'title'
         title.innerHTML += issue.title
-        title.href = 'articles.html#!1'
+        title.href = 'articles.html#!' + issue.number
 
         let li = document.createElement('li')
 
