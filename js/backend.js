@@ -102,7 +102,7 @@
             closetips()
         } else {
             closetips()
-            throw 'error'
+            console.log('non exists any articles')
         }
     }
 
