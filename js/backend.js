@@ -127,6 +127,7 @@
     }
 
     function resetContainer(container_selector) {
+        window.showPage = 1
         let container = document.querySelector(container_selector)
         container.innerHTML = ''
         let ul = document.createElement('ul')
