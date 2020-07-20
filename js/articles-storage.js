@@ -18,7 +18,7 @@
             namespace: 'tivizi/tivizi',
             block_size: 2
         },
-        storageBackend: {
+        backend: {
             save: (key, obj) => {
                 return new Promise((resolve, reject) => {
                     if (typeof localStorage === 'undefined') {
@@ -58,24 +58,24 @@
         },
         storeArticles: async function(articles) {
             try {
-                ns = (await this.storageBackend.load(NAMESPACE)).data
+                ns = (await this.backend.load(NAMESPACE)).data
             } catch(e) {
-                ns = this.config.namespace; this.storageBackend.save(e.key, this.config.namespace)
+                ns = this.config.namespace; this.backend.save(e.key, this.config.namespace)
             }
 
             try {
-                block_index = (await this.storageBackend.load(ARTICLES_INDEX_KEY + '@' + ns)).data
+                block_index = (await this.backend.load(ARTICLES_INDEX_KEY + '@' + ns)).data
                 block_key = ARTICLES_BLOCK + block_index.current_block + '@' + ns
             } catch(e) {
                 block_index = {
                     current_block: 1,
                     inverted: {}
                 }
-                this.storageBackend.save(e.key, block_index)
+                this.backend.save(e.key, block_index)
                 block_key = ARTICLES_BLOCK + block_index.current_block + '@' + ns
             }
             try {
-                current_block = (await this.storageBackend.load(block_key)).data
+                current_block = (await this.backend.load(block_key)).data
             } catch(e) {
                 current_block = {}
             }
@@ -85,29 +85,29 @@
                         current_block[article.number] = article
                         return                        
                     }
-                    let the_key = (ARTICLES_BLOCK + block_index.inverted[article.number])
-                    this.storageBackend.load(the_key).then(ret => {
+                    let the_key = ARTICLES_BLOCK + block_index.inverted[article.number] + '@' + ns
+                    this.backend.load(the_key).then(ret => {
                         let the_block = ret.data
                         the_block[article.number] = article
-                        this.storageBackend.save(the_key, the_block)
+                        this.backend.save(the_key, the_block)
                     })
                     return
                 }
                 if(Object.keys(current_block).length < this.config.block_size) {
                     current_block[article.number] = article
                     block_index.inverted[article.number] = block_index.current_block
-                    this.storageBackend.save(ARTICLES_INDEX_KEY + '@' + ns, block_index)
+                    this.backend.save(ARTICLES_INDEX_KEY + '@' + ns, block_index)
                     return
                 }
-                this.storageBackend.save(block_key, current_block)
+                this.backend.save(block_key, current_block)
                 block_index.current_block = block_index.current_block + 1
                 block_key = ARTICLES_BLOCK + block_index.current_block + '@' + ns
                 current_block = {}
                 current_block[article.number] = article
                 block_index.inverted[article.number] = block_index.current_block
-                this.storageBackend.save(ARTICLES_INDEX_KEY + '@' + ns, block_index)
+                this.backend.save(ARTICLES_INDEX_KEY + '@' + ns, block_index)
             })
-            this.storageBackend.save(block_key, current_block)
+            this.backend.save(block_key, current_block)
         },
     }
 })
