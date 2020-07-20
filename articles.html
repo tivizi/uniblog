@@ -26,14 +26,21 @@
     <script type="text/javascript">
         (function(){
             initTipsComponent()
-            // issue id
+
             if(!location.hash ) {
                 location.href = '404.html'
                 return
             }
+            // issue id
             let issueId = location.hash.substring(2)
             console.log('Issue Number: ' + issueId)
             renderFromStorage(issueId, '#container')
+
+            loadtips()
+            fetchArticleToStorage(issueId)
+            .then(articles => renderArticle(articles[issueId], '#container') )
+            .catch( e => console.log(e) )
+            .finally( () => closetips())
         })()
     </script>
 </body>

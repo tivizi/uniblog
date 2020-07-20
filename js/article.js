@@ -15,6 +15,8 @@
 
 } )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
     if (noGlobal) throw new Error('unsupports env.')
+
+    const ARTICLE_ETAG = 'article_etag_'
     
     window.onhashchange = () => window.location.reload(true)
 
@@ -23,7 +25,7 @@
         window.loadtips()
         let articles_raw = window.localStorage.getItem(window.RAW_DATA_KEY)
         if(!articles_raw) {
-            console.warn('non data.')
+            window.location.href = '/'
             return
         }
         let article = JSON.parse(articles_raw)[id]
@@ -36,6 +38,7 @@
     }
 
     window.renderArticle = (issue, container_selector) => {
+        if (!issue) throw new Error('Issue not found!')
         window.document.title = issue.title + ' - ' + window.document.title
         let avatarImg = window.document.createElement('img')
         avatarImg.id = 'issue-' + issue.id
@@ -88,5 +91,49 @@
         container.appendChild(content)
 
         window.fetchAvatar(issue.user.avatar_url, avatarImg.id)
-    } 
+    }
+
+    window.fetchArticleToStorage = (id) => {
+        let etag = window.localStorage.getItem(ARTICLE_ETAG + id)
+        return new Promise((resolve, reject) => {
+            let articles_raw = window.localStorage.getItem(window.RAW_DATA_KEY)
+            if(!articles_raw) {
+                window.location.href = '/'
+                Promise.reject('Non local data.')
+            }
+            let articles = JSON.parse(articles_raw)
+            fetch(new Request('https://api.github.com/repos/' + window.USER_REPO + '/issues/' + id, {
+                method: 'GET',
+                headers: {
+                    'If-None-Match': etag
+                }
+            })).
+            then(resp => {
+                if(resp.status == 404) {
+                    window.location.href = '404.html'
+                    Promise.reject('404 Not Found')
+                }
+                etag = resp.headers.get('etag')
+                console.log(ARTICLE_ETAG + id +': ' + etag)
+                window.localStorage.setItem(ARTICLE_ETAG + id, etag)
+                return resp
+            }).
+            then(resp => {
+                if(resp.status == 304) {
+                    resolve(articles)
+                    Promise.reject('304 Not Modified')
+                }
+                return resp.json()
+            }).
+            then(json => {
+                articles[json.number] = json
+                window.localStorage.setItem(window.RAW_DATA_KEY, JSON.stringify(articles))
+                resolve(articles)
+            }).
+            catch(e => {
+                e.data = articles
+                reject(e)
+            })
+        })
+    }
 })
