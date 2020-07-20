@@ -19,7 +19,6 @@
     const RAW_DATA_ETAG_KEY = 'article_issues_etag'
     const RAW_DATA_KEY = 'articles_issues'
     const RAW_DATA_METADATE = 'articles_issues_metadata'
-    const USER_REPO = window.config.githubRepo
     const BEGION_TIME = '2000-12-12T12:12:12Z'
     if(!window.localStorage.getItem(RAW_DATA_METADATE)) {
         window.localStorage.setItem(RAW_DATA_METADATE, JSON.stringify({
@@ -43,7 +42,7 @@
                 articles = JSON.parse(articles_raw)
             }
             
-            fetch(new Request('https://api.github.com/repos/' + USER_REPO + '/issues' + queryParams, {
+            fetch(new Request('https://api.github.com/repos/' + window.USER_REPO + '/issues' + queryParams, {
                 method: 'GET',
                 headers: {
                     'If-None-Match': etag
