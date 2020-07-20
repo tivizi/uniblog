@@ -1,0 +1,113 @@
+(function(global, factory){
+    // for node.js
+    if (typeof module === "object" && typeof module.exports === "object") {
+        module.exports = {
+            articlesStorage: factory()
+        }
+        return
+    }
+    // for browser
+    global.articlesStorage = factory()
+})(this, function() {
+    const NAMESPACE = 'current-namespace'
+    const ARTICLES_BLOCK = 'articles-block-'
+    const ARTICLES_INDEX_KEY = 'articles-storage-index'
+
+    return {
+        config: {
+            namespace: 'tivizi/tivizi',
+            block_size: 2
+        },
+        storageBackend: {
+            save: (key, obj) => {
+                return new Promise((resolve, reject) => {
+                    if (typeof localStorage === 'undefined') {
+                        reject(new Error('this context not support localStorage.'))
+                        return
+                    }
+                    try {
+                        localStorage.setItem(key, JSON.stringify(obj))
+                        resolve({
+                            key: key,
+                            data: obj
+                        })    
+                    } catch (e) {reject(e)}
+                })
+            },
+            load: (key) => {
+                return new Promise((resolve, reject) => {
+                    if (typeof localStorage === 'undefined') {
+                        reject(new Error('this context not support localStorage.'))
+                        return
+                    }
+                    try {
+                        let data_raw = localStorage.getItem(key)
+                        if(!data_raw) {
+                            let e = new Error('not found')
+                            e.key = key
+                            reject(e)
+                            return
+                        }
+                        resolve({
+                            key: key,
+                            data: JSON.parse(data_raw)
+                        })    
+                    } catch (e) {e.key = key; reject(e)}
+                })
+            }
+        },
+        storeArticles: async function(articles) {
+            try {
+                ns = (await this.storageBackend.load(NAMESPACE)).data
+            } catch(e) {
+                ns = this.config.namespace; this.storageBackend.save(e.key, this.config.namespace)
+            }
+
+            try {
+                block_index = (await this.storageBackend.load(ARTICLES_INDEX_KEY + '@' + ns)).data
+                block_key = ARTICLES_BLOCK + block_index.current_block + '@' + ns
+            } catch(e) {
+                block_index = {
+                    current_block: 1,
+                    inverted: {}
+                }
+                this.storageBackend.save(e.key, block_index)
+                block_key = ARTICLES_BLOCK + block_index.current_block + '@' + ns
+            }
+            try {
+                current_block = (await this.storageBackend.load(block_key)).data
+            } catch(e) {
+                current_block = {}
+            }
+            articles.forEach( article => {
+                if (block_index.inverted[article.number]) {
+                    if (block_index.current_block == block_index.inverted[article.number]) {
+                        current_block[article.number] = article
+                        return                        
+                    }
+                    let the_key = (ARTICLES_BLOCK + block_index.inverted[article.number])
+                    this.storageBackend.load(the_key).then(ret => {
+                        let the_block = ret.data
+                        the_block[article.number] = article
+                        this.storageBackend.save(the_key, the_block)
+                    })
+                    return
+                }
+                if(Object.keys(current_block).length < this.config.block_size) {
+                    current_block[article.number] = article
+                    block_index.inverted[article.number] = block_index.current_block
+                    this.storageBackend.save(ARTICLES_INDEX_KEY + '@' + ns, block_index)
+                    return
+                }
+                this.storageBackend.save(block_key, current_block)
+                block_index.current_block = block_index.current_block + 1
+                block_key = ARTICLES_BLOCK + block_index.current_block + '@' + ns
+                current_block = {}
+                current_block[article.number] = article
+                block_index.inverted[article.number] = block_index.current_block
+                this.storageBackend.save(ARTICLES_INDEX_KEY + '@' + ns, block_index)
+            })
+            this.storageBackend.save(block_key, current_block)
+        },
+    }
+})
