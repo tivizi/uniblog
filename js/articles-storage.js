@@ -162,7 +162,6 @@
                 }
 
                 // insert to new block
-                this.backend.save(block_key, current_block)
                 block_index.current_block = block_index.current_block + 1
                 block_index.current_block_count = 1
                 block_key = ARTICLES_BLOCK + block_index.current_block + '@' + ns
