@@ -13,6 +13,16 @@
     const ARTICLES_BLOCK = 'articles-block-'
     const ARTICLES_INDEX_KEY = 'articles-storage-index'
 
+    async function _block_key(storage, block_number) {
+        try {
+            ns = (await storage.backend.load(NAMESPACE)).data
+        } catch(e) {
+            ns = storage.config.namespace; storage.backend.save(e.key, storage.config.namespace)
+        }
+
+        return ARTICLES_BLOCK + block_number + '@' + ns
+    } 
+
     return {
         config: {
             namespace: 'tivizi/tivizi',
@@ -109,5 +119,20 @@
             })
             this.backend.save(block_key, current_block)
         },
+        articles: async function(block_number) {
+            return (await this.backend.load(await _block_key(this, block_number))).data
+        },
+        metadata: async function() {
+            try {
+                block_index = (await this.backend.load(ARTICLES_INDEX_KEY + '@' + ns)).data
+            } catch(e) {
+                block_index = {
+                    current_block: 1,
+                    inverted: {}
+                }
+                this.backend.save(e.key, block_index)
+            }
+            return block_index
+        }
     }
 })
