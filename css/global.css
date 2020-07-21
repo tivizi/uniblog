@@ -32,7 +32,9 @@ header {padding: 5px 10px;height: 56px;line-height: 56px;font-size: 16px;border-
 #container .title {font-size: 18px;font-weight: bold;line-height: 32px;}
 #container .author {height: 32px;line-height: 32px;}
 #container .author .ops {float: right;text-align: right;}
+#container .author .ops a {border-bottom: 1px dashed orange;margin-left: 5px;}
 #container .author .ops .reply {
+    border-bottom: none;
     float: right;
     margin-top: -16px;
     background: lightblue;
