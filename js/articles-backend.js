@@ -52,7 +52,7 @@
         flushNewestArticles: async () => {
             let ctx = await articlesStorage.context()
 
-            let queryParams = '?per_page=120&since=' + ctx.last_req_time
+            let queryParams = '?per_page=256&since=' + ctx.last_req_time
 
             let response = 
                 await fetch(new Request('https://api.github.com/repos/' + ctx.namespace + '/issues' + queryParams, {

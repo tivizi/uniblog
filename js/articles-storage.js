@@ -160,6 +160,7 @@
                     this.backend.save(ARTICLES_INDEX_KEY + '@' + ns, block_index)
                     return
                 }
+                this.backend.save(block_key, current_block) // store full block
 
                 // insert to new block
                 block_index.current_block = block_index.current_block + 1
@@ -169,6 +170,7 @@
                 current_block[article.number] = article
                 block_index.inverted[article.number] = block_index.current_block
                 this.backend.save(ARTICLES_INDEX_KEY + '@' + ns, block_index)
+                
             })
 
             this.backend.save(block_key, current_block)
