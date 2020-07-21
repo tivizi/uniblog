@@ -15,8 +15,8 @@
             if (!page || page < 1) {
                 throw new Error('invalid page number')
             }
-            let block = metadata.current_block - (page - 1)
             let metadata = await articlesStorage.metadata()
+            let block = metadata.current_block - (page - 1)
             let articles = []
             if (metadata.current_block_count < 10) {
                 block = metadata.current_block - page
