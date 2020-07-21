@@ -22,9 +22,9 @@
     <script type="text/javascript">
         
         index.resetContainer()
-        await index.renderWithShowPage()
-        index.updateArticlesInBackground()
-        
+        index.renderWithShowPage().then( () => {
+            index.updateArticlesInBackground()
+        })
 
         window.onscroll = () => {
             if(document.documentElement.clientHeight + document.documentElement.scrollTop 
