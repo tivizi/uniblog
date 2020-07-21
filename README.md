@@ -3,9 +3,9 @@
 ```lang
 step1. fork tivizi/uniblog to your repo.
 
-step2. change js/config.js file's settings.
+step2. change js/articles-storage.js and js/articles-backend.js files's config.
 
-step3. open github pages setting.
+step3. go to github pages settings and open this feature.
 
-step4. create some issues open your beautiful blog trip.
+step4. create some new issues to open your beautiful blog trip.
 ```

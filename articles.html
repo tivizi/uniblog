@@ -10,8 +10,9 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/global.css" />
     <title>Loadding...</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/core.js"></script>
+    <script src="js/articles-storage.js"></script>
+    <script src="js/articles-backend.js"></script>
+    <script src="js/page.js"></script>
     <script src="js/article.js"></script>
     <script type="text/javascript">
         marked.setOptions({
@@ -23,9 +24,9 @@
 <body>
     <header><div id="header"><a href="/">Tivizi 在线瞎掰</a></div></header>
     <div id="container"></div>
+    <footer><div id="page-tips"></div></footer>
     <script type="text/javascript">
         (function(){
-            initTipsComponent()
 
             if(!location.hash ) {
                 location.href = '404.html'
@@ -34,13 +35,10 @@
             // issue id
             let issueId = location.hash.substring(2)
             console.log('Issue Number: ' + issueId)
-            renderFromStorage(issueId, '#container')
+            
+            article.renderArticle(issueId)
 
-            loadtips()
-            fetchArticleToStorage(issueId)
-            .then(articles => renderArticle(articles[issueId], '#container') )
-            .catch( e => console.log(e) )
-            .finally( () => closetips())
+            article.updateArticleInBackground(issueId)
         })()
     </script>
 </body>

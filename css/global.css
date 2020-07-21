@@ -65,5 +65,7 @@ header {padding: 5px 10px;height: 56px;line-height: 56px;font-size: 16px;border-
     box-shadow: 0 0 3px rgb(2, 2, 2, 0.1);
 }
 
+#page-tips {display: none;text-align: center;font-size: 18px;margin: 10px 0;}
+
 @media screen and (min-width: 820px) {
 }
