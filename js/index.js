@@ -76,7 +76,6 @@
             })
         },
         renderWithShowPage: async function () {
-            pages.loadtips()
             try {
                 let articles = await backend.loadByPage(document.showPage)
                 await this.renderArticle(articles)
@@ -84,7 +83,6 @@
             } catch(e) {
                 pages.showPageTips(this.config.page_tips_selector, e.message)
             }
-            pages.closetips()
         },
         updateArticlesInBackground: async function() {
             pages.loadtips()

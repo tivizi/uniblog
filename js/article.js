@@ -13,8 +13,6 @@
             page_tips_selector: '#page-tips'
         },
         renderArticle: async function(number) {
-            pages.loadtips()
-            
             let issue = await backend.loadArticle(number)
             if (!issue) throw new Error('Issue not found!')
             document.title = issue.title + ' - ' + backend.config.site_name
@@ -72,8 +70,6 @@
             container.appendChild(content)
     
             pages.fetchAvatar(issue.user.avatar_url, avatarImg.id)
-
-            pages.closetips()
         },
         updateArticleInBackground: async function(number) {
             pages.loadtips()
