@@ -49,13 +49,16 @@ header {padding: 5px 10px;height: 56px;line-height: 56px;font-size: 16px;border-
 }
 #container .author img {float: left;margin: 5px 5px 0 0;border-radius: 3px;}
 
-.content {line-height: 1.8;font-size: 16px;word-break: break-word;margin-top: 10px;}
+.content {line-height: 1.6;font-size: 14px;word-break: break-word;margin-top: 10px;}
 .content a {border-bottom: 1px dashed orange;color: #930ee4;}
-.content a:hover {cursor: ;}
 .content .empty-content {text-align: center;color: #ccc;font-size: 16px;padding: 10px;line-height: 28px;}
-.content code {background: #fff;padding: 0 3px;display: inline-block;margin: 0 2px;color: #159957;font-size: 14px;line-height: 1.8;}
-.content pre code {display: block;padding: 10px 15px;margin: 0 0px;margin-bottom: 15px;overflow-x: auto;box-shadow: 0 0 3px rgb(2, 2, 2, 0.1);}
-.content p {margin-bottom: 16px;color: #222;}
+.content code {
+    background: #f5f5f5;padding: 0 3px;display: inline-block;margin: 0 2px;color: #000;font-size: 13px;line-height: 1.2;
+    font-family: Consolas,panic sans,dejavu sans mono,bitstream vera sans mono,Menlo,microsoft yahei,monospace;
+    border: 1px solid #eee;
+}
+.content pre code {display: block;padding: 10px 15px;margin: 0 0px;margin-bottom: 15px;overflow-x: auto;}
+.content p {margin-bottom: 16px;color: #222;line-height: 1.8;}
 .content>:last-child,.content blockquote>:last-child {margin-bottom: 0;}
 .content img {max-width: 100%;max-height: 445px;}
 .content h1 {font-size: 22px;color: #159957;}
