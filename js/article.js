@@ -38,6 +38,8 @@
                 let label = issue.labels[j]
                 let labelLink = window.document.createElement('a')
                 labelLink.href = 'https://github.com/' + ctx.namespace + '/labels/' + label.name
+                labelLink.title = label.description ? label.description : '暂无描述'
+                labelLink.style.cssText = 'border-color: #' + label.color
                 labelLink.innerHTML = '#' + label.name
                 ops.appendChild(labelLink)
             }
