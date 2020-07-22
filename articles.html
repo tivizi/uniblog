@@ -36,9 +36,8 @@
             let issueId = location.hash.substring(2)
             console.log('Issue Number: ' + issueId)
             
-            article.renderArticle(issueId)
+            article.renderArticle(issueId).then( () => article.updateArticleInBackground(issueId))
 
-            article.updateArticleInBackground(issueId)
         })()
     </script>
 </body>
