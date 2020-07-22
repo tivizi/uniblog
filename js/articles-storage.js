@@ -109,6 +109,13 @@
                         })    
                     } catch (e) {e.key = key; reject(e)}
                 })
+            },
+            keys: () => {
+                if (typeof localStorage === 'undefined') {
+                    reject(new Error('this context not support localStorage.'))
+                    return
+                }
+                return Object.keys(localStorage)
             }
         },
         storeArticles: async function(articles, ctx, number) {
@@ -197,10 +204,21 @@
             let articles_etag = await _etag(this, number)
             let last_req_time = await _last_req_time(this)
 
+            let that = this
             return {
                 namespace: ns,
                 articles_etag: articles_etag,
-                last_req_time: last_req_time 
+                last_req_time: last_req_time,
+                queryAllNamespaces: async function() {
+                    let set = new Set()
+                    that.backend.keys().forEach( key => {
+                        let index = key.indexOf('@')
+                        if ( index != -1) {
+                            set.add(key.substring(index + 1))
+                        }
+                    })
+                    return set
+                }
             } 
         },
         setNamespace: async function(ns) {
