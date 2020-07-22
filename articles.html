@@ -47,7 +47,11 @@
 
         })()
         
-        window.onhashchange = () => window.location.reload(true)
+        window.onhashchange = () => {
+            if(location.hash.startsWith('#!')) {
+                window.location.reload(true)
+            }
+        }
     </script>
 </body>
 </html>
