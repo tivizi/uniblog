@@ -75,10 +75,19 @@
             pages.loadtips()
 
             backend.flushNewestArticle(number)
-                .then( () => this.renderArticle(number) )
+                .then( () => { 
+                    this.renderArticle(number)
+                    this.showPageTips('- the end -')
+                })
+                .catch( e => {
+                    if(e.code == 404 ) {
+                        article.showPageTips('- not found -')
+                        return
+                    }
+                    throw e
+                })
                 .finally(() => {
                     pages.closetips()
-                    this.showPageTips('- the end -')
                 })
         },
         showPageTips: function(tips) {

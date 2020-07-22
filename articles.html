@@ -38,9 +38,7 @@
             
             article.renderArticle(issueId).finally( () => {
                 article.updateArticleInBackground(issueId).catch( e => {
-                    if(e.code == 404 ) {
-                        article.showPageTips('- not found -')
-                    }
+                    window.location.href = '/'
                 })
             })
 

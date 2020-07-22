@@ -88,6 +88,7 @@
         },
         updateArticlesInBackground: async function() {
             pages.loadtips()
+            pages.showPageTips(this.config.page_tips_selector, '')
             backend.flushNewestArticles().then( () => {
                 this.resetContainer()
                 this.renderWithShowPage()
