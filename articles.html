@@ -36,7 +36,13 @@
             let issueId = location.hash.substring(2)
             console.log('Issue Number: ' + issueId)
             
-            article.renderArticle(issueId).then( () => article.updateArticleInBackground(issueId))
+            article.renderArticle(issueId).finally( () => {
+                article.updateArticleInBackground(issueId).catch( e => {
+                    if(e.code == 404 ) {
+                        article.showPageTips('- not found -')
+                    }
+                })
+            })
 
         })()
     </script>

@@ -89,7 +89,9 @@
             }))
 
             if(response.status == 404) {
-                throw new Error('404 Not Found')
+                let e = new Error('404 Not Found');
+                e.code = 404
+                throw e 
             }
 
             if(response.status == 304) {

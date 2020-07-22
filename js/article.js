@@ -5,8 +5,8 @@
     if (!global.pages) {
         throw new Error('this script require page.js!')
     }
-    global.article = factory(global.document, global.backend, global.pages)
-})(this, (document, backend, pages) => {
+    global.article = factory(global, global.document, global.backend, global.pages)
+})(this, (global, document, backend, pages) => {
     return {
         config: {
             container_selector: '#container',
@@ -74,10 +74,15 @@
         updateArticleInBackground: async function(number) {
             pages.loadtips()
 
-            backend.flushNewestArticle(number).then( () => this.renderArticle(number) ).finally(() => {
-                pages.closetips()
-                pages.showPageTips(this.config.page_tips_selector, '- the end -')
-            })
+            backend.flushNewestArticle(number)
+                .then( () => this.renderArticle(number) )
+                .finally(() => {
+                    pages.closetips()
+                    this.showPageTips('- the end -')
+                })
+        },
+        showPageTips: function(tips) {
+            pages.showPageTips(this.config.page_tips_selector, tips)
         }
     }
 })
