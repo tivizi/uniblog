@@ -84,6 +84,7 @@
                         article.showPageTips('- not found -')
                         return
                     }
+                    article.showPageTips('- the end -')
                     throw e
                 })
                 .finally(() => {
