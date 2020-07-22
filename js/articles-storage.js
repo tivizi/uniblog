@@ -202,6 +202,9 @@
                 articles_etag: articles_etag,
                 last_req_time: last_req_time 
             } 
+        },
+        setNamespace: async function(ns) {
+            await this.backend.save(NAMESPACE, ns)
         }
 
     }

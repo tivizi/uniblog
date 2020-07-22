@@ -6,7 +6,10 @@
         throw new Error('this script require articles-backend.js!')
     }
     global.pages = factory(global.document, global.backend)
-
+    let params = new URLSearchParams(global.location.search)
+    if (params.get('ns')) {
+        global.articlesStorage.setNamespace(params.get('ns'))
+    }
 })(this, (document, backend) => {
     
     const TIPS_AREA = '<div id="_tips_area"><span id="loadding"><svg t="1595122648400" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2142"><path d="M204.8 204.8m-204.8 0a204.8 204.8 0 1 0 409.6 0 204.8 204.8 0 1 0-409.6 0Z" fill="#EBF2FC" p-id="2143"></path><path d="M819.2 204.8m-204.8 0a204.8 204.8 0 1 0 409.6 0 204.8 204.8 0 1 0-409.6 0Z" fill="#B5D2F3" p-id="2144"></path><path d="M819.2 819.2m-204.8 0a204.8 204.8 0 1 0 409.6 0 204.8 204.8 0 1 0-409.6 0Z" fill="#7FB0EA" p-id="2145"></path><path d="M204.8 819.2m-204.8 0a204.8 204.8 0 1 0 409.6 0 204.8 204.8 0 1 0-409.6 0Z" fill="#4A90E2" p-id="2146"></path></svg></span><span id="load_success"><svg t="1595123306396" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1192"><path d="M512 64c247.424 0 448 200.576 448 448S759.424 960 512 960 64 759.424 64 512 264.576 64 512 64z m298.667 224L437.333 586.667l-224-74.667 224 224 373.334-448z" p-id="1193" fill="#2aa515"></path></svg></span></div>'
