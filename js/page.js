@@ -56,7 +56,16 @@
             try {
                 fetch('https://cors-anywhere.herokuapp.com/' + url)
                     .then(resp => resp.blob())
-                    .then(imgBlob => document.querySelector('#' + imgId).src=URL.createObjectURL(imgBlob))
+                    .then(imgBlob => {
+                        if (backend[url]) {
+                            document.querySelector('#' + imgId).src = backend[url]
+                            console.debug('Cache Hit.')
+                            return    
+                        }
+                        let blobUrl = URL.createObjectURL(imgBlob)
+                        document.querySelector('#' + imgId).src = blobUrl
+                        backend[url] = blobUrl
+                    })
                     .catch(e => console.log(e))
             }catch(e) {document.querySelector('#' + imgId).src = url}
         },
