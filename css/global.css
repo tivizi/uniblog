@@ -71,6 +71,13 @@ header {padding: 5px 10px;height: 56px;line-height: 56px;font-size: 16px;border-
 .content ul li {color: #222;list-style: circle;line-height: 1.8;}
 .content strong {color: #000;}
 .content em {color: #000;}
+.content p img {
+    max-width: 70%;
+    box-shadow: 0 0 10px #bbb;
+    margin: 10px auto;
+    display: block;
+    border-radius: 6px;
+}
 
 #page-tips {display: none;text-align: center;font-size: 18px;margin: 20px 0;font-style: italic;}
 
