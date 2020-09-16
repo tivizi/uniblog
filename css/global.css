@@ -1,3 +1,11 @@
+@font-face {
+    font-family: josefin sans;
+    font-style: normal;
+    font-weight: 400;
+    src: url(//lib.baomitu.com/fonts/josefin-sans/josefin-sans-regular.eot);
+    src: local("Josefin Sans"),local("JosefinSans-Normal"),url(//lib.baomitu.com/fonts/josefin-sans/josefin-sans-regular.eot?#iefix) format("embedded-opentype"),url(//lib.baomitu.com/fonts/josefin-sans/josefin-sans-regular.woff2) format("woff2"),url(//lib.baomitu.com/fonts/josefin-sans/josefin-sans-regular.woff) format("woff"),url(//lib.baomitu.com/fonts/josefin-sans/josefin-sans-regular.ttf) format("truetype"),url(//lib.baomitu.com/fonts/josefin-sans/josefin-sans-regular.svg#JosefinSans) format("svg")
+}
+
 * {
     padding: 0;margin: 0;list-style: none;
     font-family: josefin sans,-apple-system,BlinkMacSystemFont,helvetica neue,pingfang sc,hiragino sans gb,STHeiti,microsoft yahei,wenquanyi micro hei,Arial,Verdana,sans-serif;
